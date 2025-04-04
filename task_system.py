@@ -227,7 +227,6 @@ class SystemTask:
             
             print(f"Trial {i+1}: Sequential: {seq_time:.4f}s, Parallel: {par_time:.4f}s")
         
-        # Calculate averages
         avg_seq_time = sum(seq_times) / len(seq_times)
         avg_par_time = sum(par_times) / len(par_times)
         speedup = avg_seq_time / avg_par_time if avg_par_time > 0 else 0

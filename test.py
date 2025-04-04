@@ -107,7 +107,7 @@ def test_parallel_execution():
     assert e_start >= max(b_end, c_end), "E started before dependencies completed"
     
     plt.figure(figsize=(12, 6))
-    tasks = ["A", "B", "C", "D", "E", "F"]
+    tasks = ["A", "B", "C", "D", "E"]
     
     for i, task in enumerate(tasks):
         start, end = execution_times[task]
@@ -135,10 +135,11 @@ def test_resource_interference():
         def task_fn():
             start_time = time.time()
             print(f"  Task {name} started at {start_time}")
-            time.sleep(duration)  # Simulate work
+            time.sleep(duration)  
             end_time = time.time()
             execution_times[name] = (start_time, end_time)
             print(f"  Task {name} completed after {end_time - start_time:.2f} seconds")
+            
         return task_fn
     
     tasks = [
@@ -186,7 +187,7 @@ def test_resource_interference():
     max_parallelism = system._build_max_parallelism()
     print("Max parallelism:")
     for task, deps in max_parallelism.items():
-        print(f"  {task}: {deps}")
+        print(f" {task}: {deps}")
     
     
     plt.figure(figsize=(8, 8))
@@ -333,7 +334,7 @@ def test_complex_workflow():
     print(f"Sequential execution time: {sequential_time:.2f} seconds")
     print(f"Sequential execution order: {execution_order}")
     
-    # Create sequential execution timeline visualization
+    
     plt.figure(figsize=(12, 6))
     task_names = list(execution_times.keys())
     for i, task in enumerate(task_names):
@@ -351,7 +352,6 @@ def test_complex_workflow():
     plt.grid(axis='x', alpha=0.3)
     plt.tight_layout()
     plt.show()
-    #plt.savefig('complex_sequential_timeline.png', dpi=300)
     
     print("Running with parallelism:")
     execution_order.clear()
@@ -361,7 +361,7 @@ def test_complex_workflow():
     parallel_time = time.time() - start_time
     print(f"Parallel execution time: {parallel_time:.2f} seconds")
     print(f"Parallel execution order: {execution_order}")
-    
+    system.test_determinism_random()
     plt.figure(figsize=(12, 6))
     task_names = list(execution_times.keys())
     for i, task in enumerate(task_names):
@@ -393,6 +393,7 @@ if __name__ == "__main__":
         test_resource_interference()
         test_error_cases()
         test_complex_workflow()
+
         
         print("\n=== ALL TESTS COMPLETED SUCCESSFULLY ===")
         
